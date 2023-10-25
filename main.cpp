@@ -4,28 +4,39 @@
 //
 //  Created by Isabelle Puwo on 10/20/23.
 //
-
 #include <iostream>
-#include<stack>
-#include<queue>
-#include "Header.h"
-#include"cppfile.cpp"
-
+#include "ConverttoBinary.hpp"
 using namespace std;
- 
 int main(){
-    double number;
-    int decimalPlace;
-    cout<<"Please enter a decimal number: "<<endl;
-    cin>> number;
-    DecimaltoBinaryConverter Converter(number);
-    cout<<"How many decimal places do want it to be rounded to ?"<<endl;
-    cin>> decimalPlace;
+    Stack myStack;
+    Queue myQueue;
+    double Number;
+    int Places;
+    
+    cout << "Please enter decimal number: ";
+    cin >> Number;
+    
+    int IntegerPart = static_cast<int>(Number);
+    double DecimalPart = Number - IntegerPart;
+    
+    if (DecimalPart != 0) {
+        do {
+            cout << "How many decimal places do want it to be rounded to  ";
+            cin >> Places;
+        } while (Places < 1);
+        myQueue.convertionQueue(myQueue, DecimalPart, Places);
+    }
+    myStack.convertionstack(IntegerPart);
+    
+    cout << "Binary conversion: ";
+       myStack.displayStack();
 
-    stack<int>binaryIntegerPart = Converter.integertoBinary();
-    queue<int>binaryDecimalPart = Converter.DecimaltoBinaryConversion();
-    double roundedValue = Converter.decimalPlaceConverter(decimalPlace);
-    cout<<"Rounded Value: "<< roundedValue<<endl;
-    Converter.display();
-    return 0;
+       if (DecimalPart != 0) {
+           cout << ".";
+           myQueue.displayQueue();
+       }
+
+       cout << endl;
+
+       return 0;
 }
