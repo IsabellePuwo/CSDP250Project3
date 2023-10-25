@@ -5,61 +5,97 @@
 //  Created by Isabelle Puwo on 10/20/23.
 //
 
-#include <stdio.h>
-#include <stack>
-#include <queue>
+#include "ConverttoBinary.hpp"
 #include <iostream>
-#include <cmath> 
-#include"Header.h"
 using namespace std;
 
-DecimaltoBinaryConverter::DecimaltoBinaryConverter(double number){
-    integer = static_cast<int>(number);
-    decimal = number - integer;
+
+Stack::~Stack() {
+    while (!isEmpty()) pop();
 }
 
+Stack::Stack() : top(nullptr) {}
 
-stack<int>  DecimaltoBinaryConverter:: integertoBinary(){
-    stack<int> binaryStack;
-    int tempInteger = integer;
-    while(tempInteger > 0){
-        binaryStack.push(tempInteger % 2);
-         tempInteger /= 2;
+void Stack::pop() {
+    if (!isEmpty()) {
+        StackNode* temp = top;
+        top = top->next;
+        delete temp;
     }
-    return binaryStack;
 }
 
-queue<int> DecimaltoBinaryConverter::DecimaltoBinaryConversion(){
-    queue<int> binaryQueue;
-    double tempDecimal = decimal;
-    while(tempDecimal > 0 ){
-        tempDecimal *= 2;
-        int bit = static_cast<int>(tempDecimal);
-        binaryQueue.push(bit);
-        tempDecimal -= bit;
+void Stack::push(int data) {
+    StackNode* newNode = new StackNode;
+    newNode->data = data;
+    newNode->next = top;
+    top = newNode;
+}
+
+bool Stack::isEmpty() {
+    return top == nullptr;
+}
+
+int Stack::Top() {
+    return top->data;
+}
+
+void Stack::displayStack() const {
+    StackNode* current = top;
+    while (current != nullptr) {
+        cout << current->data << endl;
+        current = current->next;
     }
-    return binaryQueue;
+    cout << endl;
 }
 
-double DecimaltoBinaryConverter :: decimalPlaceConverter(int decimalPlace){
-    double factor = pow(10, decimalPlace);
-       return round(decimal * factor) / factor;
-}
-
-void DecimaltoBinaryConverter::display(){
-    stack<int> integerBinary = integertoBinary();
-    cout << "Binary Representation of Integer Part : " <<endl;
-    while (!integerBinary.empty()) {
-        cout << integerBinary.top();
-        integerBinary.pop();
+int Stack::sizeOf() {
+    int count = 0;
+    StackNode* current = top;
+    while (current != nullptr) {
+        count++;
+        current = current->next;
     }
+    return count;
+}
+Queue::~Queue() {
+    while (front) {
+        QueueNode* nodePtr = front;
+        front = front->next;
+        delete nodePtr;
+    }
+}
+
+void Queue::enqueue(int data) {
+    QueueNode* newNode = new QueueNode;
+    newNode->data = data;
+    newNode->next = nullptr;
     
-    cout <<".";
-    queue<int> decimalBinary = DecimaltoBinaryConversion();
-    cout << "\nBinary Representation of Decimal Part: "<<endl;
-    while (!decimalBinary.empty()) {
-        cout << decimalBinary.front();
-        decimalBinary.pop();
+    if (!front) {
+        front = newNode;
+        rear = newNode;
+    } else {
+        rear->next = newNode;
+        rear = newNode;
+    }
+}
+
+void Queue::dequeue() {
+    if (front) {
+        QueueNode* newNode = front;
+        front = front->next;
+        delete newNode;
+    }
+}
+
+bool Queue::isEmpty() {
+    return front == nullptr;
+}
+
+void Queue::displayQueue() const {
+    QueueNode* current = front;
+    while (current != nullptr) {
+        cout << current->data<< " ";
+        current = current->next;
     }
     cout << endl;
 }
