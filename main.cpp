@@ -21,7 +21,7 @@ int main(){
     
     if (DecimalPart != 0) {
         do {
-            cout << "How many decimal places do want it to be rounded to  ";
+            cout << "How many decimal places do want it to be rounded to ?  ";
             cin >> Places;
         } while (Places < 1);
         myQueue.convertionQueue(myQueue, DecimalPart, Places);
